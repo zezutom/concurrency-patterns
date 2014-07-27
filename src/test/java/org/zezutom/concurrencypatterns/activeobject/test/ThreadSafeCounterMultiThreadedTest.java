@@ -5,13 +5,9 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.zezutom.concurrencypatterns.activeobject.Counter;
 import org.zezutom.concurrencypatterns.activeobject.ThreadSafeCounter;
-
-import java.util.concurrent.BrokenBarrierException;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.CyclicBarrier;
+import org.zezutom.concurrencypatterns.test.util.TestExecutor;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 
 /**
  * @author Tomas Zezula
@@ -31,17 +27,8 @@ public class ThreadSafeCounterMultiThreadedTest {
     private static Runnable decrementAndGetCommand;
     private static Runnable getAndDecrementCommand;
 
-    // The number of iteration the commands should be looped over
-    public static final int MAX_ITERATIONS = 10000;
-
-    // The number of concurrent threads per each individual command
-    public static final int CONCURRENT_THREADS = 5;
-
-    // Ensures all threads are ready when starting a new test
-    private static CyclicBarrier startSync;
-
-    // Ensures all threads are done doing their job before a test is terminated
-    private static CountDownLatch stopSync;
+    // Multi-threaded test executor
+    private static TestExecutor testExecutor;
 
     // An instance of the tested class. Being 'volatile' indicates it's going to be used by multiple threads
     private static volatile Counter counter;
@@ -49,46 +36,13 @@ public class ThreadSafeCounterMultiThreadedTest {
     // The value of the counter prior to any testing
     private long startValue;
 
-    /**
-     * Runs a test by looping a given command until the MAX_ITERATIONS is reached.
-     */
-    private static class TestRunner implements Runnable {
-
-        private Runnable command;
-
-        private int iterations;
-
-        TestRunner(Runnable command) {
-            this.command = command;
-        }
-
-        public int getIterations() {
-            return iterations;
-        }
-
-        @Override
-        public void run() {
-            try {
-                // Wait for all other threads to start running
-                startSync.await();
-
-                for (iterations = 0; iterations < MAX_ITERATIONS; iterations++) {
-                    command.run();
-                }
-
-                // Notify the main thread the job is done
-                stopSync.countDown();
-
-            } catch (InterruptedException | BrokenBarrierException e) {
-                fail("Command failed to execute.");
-            }
-        }
-    }
-
     @BeforeClass
     public static void init() {
         // Instantiates the counter with the initial value
         counter = new ThreadSafeCounter(INITIAL_VALUE);
+
+        // Initializes multi-threaded test executor
+        testExecutor = TestExecutor.get();
 
         // Initializes individual commands
         getCommand =                new Runnable() {@Override public void run() { counter.get(); } };
@@ -105,88 +59,50 @@ public class ThreadSafeCounterMultiThreadedTest {
 
     @Test
     public void get() {
-        runTest(getCommand);
+        testExecutor.runTest(getCommand);
         assertEquals(startValue, counter.get());
     }
 
     @Test
     public void incrementAndGet() {
-        runTest(incrementAndGetCommand);
+        testExecutor.runTest(incrementAndGetCommand);
         assertEquals(getExpectedIncrementedValue(), counter.get());
     }
 
     @Test
     public void getAndIncrement() {
-        runTest(getAndIncrementCommand);
+        testExecutor.runTest(getAndIncrementCommand);
         assertEquals(getExpectedIncrementedValue(), counter.get());
     }
 
     @Test
     public void decrementAndGet() {
-        runTest(decrementAndGetCommand);
+        testExecutor.runTest(decrementAndGetCommand);
         assertEquals(getExpectedDecrementedValue(), counter.get());
     }
 
     @Test
     public void getAndDecrement() {
-        runTest(getAndDecrementCommand);
+        testExecutor.runTest(getAndDecrementCommand);
         assertEquals(getExpectedDecrementedValue(), counter.get());
     }
 
     @Test
     public void runAll() {
-        runTest(null);
+        testExecutor.runTest(getCommand,
+                incrementAndGetCommand,
+                getAndIncrementCommand,
+                decrementAndGetCommand,
+                getAndDecrementCommand);
         assertEquals(startValue, counter.get());
     }
 
-    private void runTest(Runnable command) {
-        try {
-            // Tests synchronization
-            startSync = new CyclicBarrier(CONCURRENT_THREADS);
-            stopSync  = new CountDownLatch(CONCURRENT_THREADS);
-
-            // A number of concurrent tests
-            TestRunner[] runners = new TestRunner[CONCURRENT_THREADS];
-
-            if (command == null) {
-                // Initialize the runners with the predefined commands
-                runners[0] = new TestRunner(getCommand);
-                runners[1] = new TestRunner(incrementAndGetCommand);
-                runners[2] = new TestRunner(getAndIncrementCommand);
-                runners[3] = new TestRunner(decrementAndGetCommand);
-                runners[4] = new TestRunner(getAndDecrementCommand);
-            }
-            else {
-                // Initialize the runners with the provided command and start them
-                for (int i = 0; i < CONCURRENT_THREADS; i++) {
-                    runners[i] = new TestRunner(command);
-                }
-            }
-
-            // Start the runners
-            for (TestRunner runner : runners) {
-                new Thread(runner).start();
-            }
-
-            // Wait until all of the runners will have finished their job
-            stopSync.await();
-
-            // Ensure each and every runner did actually do its job
-            for (TestRunner runner : runners) {
-                assertEquals("The runner not used to its full potential.", MAX_ITERATIONS, runner.getIterations());
-            }
-
-        } catch (InterruptedException e) {
-            fail("Exception when running the tests.");
-        }
-    }
-
     private long getExpectedIncrementedValue() {
-        return startValue + MAX_ITERATIONS * CONCURRENT_THREADS;
+        return startValue + TestExecutor.MAX_ITERATIONS * TestExecutor.DEFAULT_CONCURRENT_THREADS;
     }
 
     private long getExpectedDecrementedValue() {
-        return startValue - MAX_ITERATIONS * CONCURRENT_THREADS;
+        return startValue - TestExecutor.MAX_ITERATIONS * TestExecutor.DEFAULT_CONCURRENT_THREADS;
     }
 
 }

@@ -3,7 +3,7 @@ package org.zezutom.concurrencypatterns.activeobject;
 /**
  * @author Tomas Zezula
  *
- * This class shadows a subset of functionality of the java.util.concurrent.atomic.SimpleAtomicLong
+ * This interface shadows a subset of functionality of the java.util.concurrent.atomic.SimpleAtomicLong
  */
 public interface Counter {
 
