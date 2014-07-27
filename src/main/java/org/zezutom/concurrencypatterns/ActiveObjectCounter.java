@@ -1,11 +1,13 @@
-package org.zezutom.concurrencypatterns.activeobject;
+package org.zezutom.concurrencypatterns;
+
+import org.zezutom.concurrencypatterns.Counter;
 
 import java.util.concurrent.*;
 
 /**
  * @author Tomas Zezula
  *
- * Implements the org.zezutom.concurrencypatterns.activeobject.Counter in a way that is suitable
+ * Implements the org.zezutom.concurrencypatterns.Counter in a way that is suitable
  * for multi-threaded scenarios. The implementation makes use of the Active Object
  * design pattern:
  *
@@ -19,7 +21,7 @@ import java.util.concurrent.*;
  * - Private data are accessed from the private thread
  * - Since there is not a 'shared' state, there is no need for additional synchronization either
  */
-public class ThreadSafeCounter implements Counter {
+public class ActiveObjectCounter implements Counter {
 
     private long value;
 
@@ -27,7 +29,7 @@ public class ThreadSafeCounter implements Counter {
 
     private BlockingQueue<Long> resultQueue = new LinkedBlockingQueue<>();
 
-    public ThreadSafeCounter(long value) {
+    public ActiveObjectCounter(long value) {
         this.value = value;
 
         new Thread(new Runnable() {
