@@ -1,11 +1,11 @@
-package org.zezutom.activeobject;
+package org.zezutom.concurrencypatterns.activeobject;
 
 import java.util.concurrent.*;
 
 /**
  * @author Tomas Zezula
  *
- * Implements the org.zezutom.activeobject.Counter in a way that is suitable
+ * Implements the org.zezutom.concurrencypatterns.activeobject.Counter in a way that is suitable
  * for multi-threaded scenarios. The implementation makes use of the Active Object
  * design pattern:
  *
@@ -13,7 +13,7 @@ import java.util.concurrent.*;
  * - All of the work is done on a private thread
  * - Method calls are enqueued to the active object and the caller is returned to instantly
  *   (method calls on the active object are always non-blocking and asynchronous)
- * - The private thread is essentially a message queue
+ * - The private thread is essentially a message taskQueue
  * - Messages are being dequeued and executed one at a time
  * - Messages are atomic one to each other, because they are processed sequentially
  * - Private data are accessed from the private thread
@@ -23,10 +23,35 @@ public class ThreadSafeCounter implements Counter {
 
     private long value;
 
-    private ExecutorService executorService = Executors.newSingleThreadExecutor();
+    private BlockingQueue<Callable<Long>> taskQueue = new LinkedBlockingQueue<>();
+
+    private BlockingQueue<Long> resultQueue = new LinkedBlockingQueue<>();
 
     public ThreadSafeCounter(long value) {
         this.value = value;
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                ExecutorService executorService = Executors.newSingleThreadExecutor();
+                try {
+                    // busy waiting
+                    while (true) {
+                        try {
+                            Future<Long> future = executorService.submit(taskQueue.take());
+                            while (!future.isDone())
+                                ; // wait until the results are ready
+                            resultQueue.put(future.get());
+                        } catch (InterruptedException | ExecutionException  e) {
+                            throw new RuntimeException("Task execution was failed!");
+                        }
+                    }
+                }
+                finally {
+                    executorService.shutdown();
+                }
+            }
+        }).start();
     }
 
     @Override
@@ -80,14 +105,17 @@ public class ThreadSafeCounter implements Counter {
     }
 
     private long enqueueTask(Callable<Long> task) {
-        Future<Long> future = executorService.submit(task);
-        while (future == null || !future.isDone())
-            ; // wait
-
+        Long result = null;
         try {
-            return future.get();
-        } catch (InterruptedException | ExecutionException  e) {
-            throw new RuntimeException("Task execution was interrupted!");
+            taskQueue.put(task);
+
+            while (true) {
+                result = resultQueue.poll(500, TimeUnit.MILLISECONDS);
+                if (result != null) break;
+            }
+            return result;
+        } catch (InterruptedException e) {
+            throw new RuntimeException("Task scheduling was interrupted!");
         }
     }
 }
