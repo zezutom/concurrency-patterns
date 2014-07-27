@@ -1,11 +1,9 @@
-package org.zezutom.concurrencypatterns;
-
-import org.zezutom.concurrencypatterns.Counter;
+package org.zezutom.concurrencypatterns.activeobject;
 
 /**
  * @author Tomas Zezula
  *
- * Implements the org.zezutom.concurrencypatterns.Counter in a way that is NOT suitable
+ * Implements the org.zezutom.concurrencypatterns.activeobject.Counter in a way that is NOT suitable
  * for multi-threaded scenarios.
  */
 public class ThreadUnsafeCounter implements Counter {

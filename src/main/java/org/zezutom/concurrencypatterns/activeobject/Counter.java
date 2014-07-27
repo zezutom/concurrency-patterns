@@ -1,4 +1,4 @@
-package org.zezutom.concurrencypatterns;
+package org.zezutom.concurrencypatterns.activeobject;
 
 /**
  * @author Tomas Zezula

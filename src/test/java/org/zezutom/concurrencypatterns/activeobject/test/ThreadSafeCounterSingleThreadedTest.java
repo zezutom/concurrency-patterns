@@ -1,18 +1,18 @@
-package org.zezutom.concurrencypatterns.test;
+package org.zezutom.concurrencypatterns.activeobject.test;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.zezutom.concurrencypatterns.Counter;
-import org.zezutom.concurrencypatterns.ThreadUnsafeCounter;
+import org.zezutom.concurrencypatterns.activeobject.Counter;
+import org.zezutom.concurrencypatterns.activeobject.ThreadSafeCounter;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author Tomas Zezula
  *
  * Proves the core functionality, all tests should pass.
  */
-public class ThreadUnsafeCounterSingleThreadedTest {
+public class ThreadSafeCounterSingleThreadedTest {
 
     // The value the counter is initialized with
     public static final long INITIAL_VALUE = 10L;
@@ -21,7 +21,7 @@ public class ThreadUnsafeCounterSingleThreadedTest {
 
     @Before
     public void init() {
-        counter = new ThreadUnsafeCounter(INITIAL_VALUE);
+        counter = new ThreadSafeCounter(INITIAL_VALUE);
     }
 
     @Test
