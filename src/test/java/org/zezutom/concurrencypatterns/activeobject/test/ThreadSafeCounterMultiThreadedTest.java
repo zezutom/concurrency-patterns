@@ -12,7 +12,7 @@ import static org.junit.Assert.assertEquals;
 /**
  * @author Tomas Zezula
  *
- * Proves that the implementation of org.zezutom.concurrencypatterns.activeobject.ThreadSafeCounter
+ * Proves that the implementation of org.zezutom.concurrencypatterns.org.zezutom.concurrencypatterns.activeobject.ThreadSafeCounter
  * is thread-safe, as the counter - under race conditions - consistently returns expected values.
  */
 public class ThreadSafeCounterMultiThreadedTest {

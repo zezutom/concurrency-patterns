@@ -1,4 +1,4 @@
-package org.zezutom.concurrencypatterns.activeobject.test;
+package test;
 
 import org.junit.Before;
 import org.junit.BeforeClass;
