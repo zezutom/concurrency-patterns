@@ -110,6 +110,7 @@ public class ThreadSafeCounter implements Counter {
         });
     }
 
+    // Proxy: allows the clients to submit new tasks
     private long enqueueTask(Callable<Long> task) {
         Long result;
         try {
