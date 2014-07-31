@@ -10,11 +10,11 @@ The scheduler picks a queued object and makes it run its logic. It is object's r
 to know what to do when it gets invoked, hence the Active Object.
 
 ## Key Components
-- Proxy: provides interface the clients can use to submit their requests
-- Activation List: a queue of pending client requests
-- Scheduler: decides which request to execute next
-- Active Object: implements the core business logic
-- Callback: contains execution result (i.e. a promise or a future)
+- __Proxy__: provides interface the clients can use to submit their requests
+- __Activation List__: a queue of pending client requests
+- __Scheduler__: decides which request to execute next
+- __Active Object__: implements the core business logic
+- __Callback__: contains execution result (i.e. a promise or a future)
 
 ## Pros and Cons
 TODO
@@ -24,7 +24,7 @@ source code directories:
 - src/main/java/org/zezutom/concurrencypatterns/activeobject
 - src/test/java/org/zezutom/concurrencypatterns/activeobject/test
 
-A simple counter implementing a sub-set of the [SimpleAtomicLong](TODO: a link to java.org.concurrent.atomic.SimpleAtomicLong).
+A simple counter implementing a sub-set of the [AtomicLong](http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/atomic/AtomicLong.html).
 The counter keeps its internal state which is then a subject to race conditions:
 ```java
 public class ThreadSafeCounter {
