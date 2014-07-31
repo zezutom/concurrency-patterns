@@ -21,23 +21,29 @@ import java.util.concurrent.*;
  */
 public class ThreadSafeCounter implements Counter {
 
+    // The internal state, subject to race conditions.
     private long value;
 
+    // Activation List: incoming requests (tasks) are put into a queue
     private BlockingQueue<Callable<Long>> taskQueue = new LinkedBlockingQueue<>();
 
+    // Callback: provides access to the calculated results (incrementAndGet, etc.)
     private BlockingQueue<Long> resultQueue = new LinkedBlockingQueue<>();
 
+    // Scheduler: a dedicated thread created and started when the counter gets instantiated
     public ThreadSafeCounter(long value) {
         this.value = value;
 
         new Thread(new Runnable() {
             @Override
             public void run() {
+                // This is the actual task scheduler. It only allows for a single task at a time.
                 ExecutorService executorService = Executors.newSingleThreadExecutor();
                 try {
                     // busy waiting
                     while (true) {
                         try {
+                            // At some point in the future the counter's new value will be available
                             Future<Long> future = executorService.submit(taskQueue.take());
                             while (!future.isDone())
                                 ; // wait until the results are ready
@@ -105,10 +111,12 @@ public class ThreadSafeCounter implements Counter {
     }
 
     private long enqueueTask(Callable<Long> task) {
-        Long result = null;
+        Long result;
         try {
+            // Put the task into the queue
             taskQueue.put(task);
 
+            // Meanwhile, the client is blocked until the result is ready
             while (true) {
                 result = resultQueue.poll(500, TimeUnit.MILLISECONDS);
                 if (result != null) break;

@@ -1,10 +1,10 @@
-package test;
+package org.zezutom.concurrency.patterns.activeobject.test;
 
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.zezutom.concurrencypatterns.activeobject.Counter;
-import org.zezutom.concurrencypatterns.activeobject.ThreadUnsafeCounter;
+import org.zezutom.concurrencypatterns.activeobject.ThreadSafeCounter;
 import org.zezutom.concurrencypatterns.test.util.TestExecutor;
 
 import static org.junit.Assert.assertEquals;
@@ -12,11 +12,10 @@ import static org.junit.Assert.assertEquals;
 /**
  * @author Tomas Zezula
  *
- * Proves that the implementation of org.zezutom.concurrencypatterns.org.zezutom.concurrencypatterns.activeobject.ThreadUnsafeCounter
- * is NOT thread-safe. The tests "pass" in a a sense that the actual results differ from
- * the expected values.
+ * Proves that the implementation of org.zezutom.concurrencypatterns.org.zezutom.concurrencypatterns.activeobject.ThreadSafeCounter
+ * is thread-safe, as the counter - under race conditions - consistently returns expected values.
  */
-public class ThreadUnsafeCounterMultiThreadedTest {
+public class ThreadSafeCounterMultiThreadedTest {
 
     // The value the counter is initialized with
     public static final long INITIAL_VALUE = 10L;
@@ -40,7 +39,7 @@ public class ThreadUnsafeCounterMultiThreadedTest {
     @BeforeClass
     public static void init() {
         // Instantiates the counter with the initial value
-        counter = new ThreadUnsafeCounter(INITIAL_VALUE);
+        counter = new ThreadSafeCounter(INITIAL_VALUE);
 
         // Initializes multi-threaded test executor
         testExecutor = TestExecutor.get();
@@ -64,31 +63,31 @@ public class ThreadUnsafeCounterMultiThreadedTest {
         assertEquals(startValue, counter.get());
     }
 
-    @Test(expected = AssertionError.class)
+    @Test
     public void incrementAndGet() {
         testExecutor.runTest(incrementAndGetCommand);
         assertEquals(getExpectedIncrementedValue(), counter.get());
     }
 
-    @Test(expected = AssertionError.class)
+    @Test
     public void getAndIncrement() {
         testExecutor.runTest(getAndIncrementCommand);
         assertEquals(getExpectedIncrementedValue(), counter.get());
     }
 
-    @Test(expected = AssertionError.class)
+    @Test
     public void decrementAndGet() {
         testExecutor.runTest(decrementAndGetCommand);
         assertEquals(getExpectedDecrementedValue(), counter.get());
     }
 
-    @Test(expected = AssertionError.class)
+    @Test
     public void getAndDecrement() {
         testExecutor.runTest(getAndDecrementCommand);
         assertEquals(getExpectedDecrementedValue(), counter.get());
     }
 
-    @Test(expected = AssertionError.class)
+    @Test
     public void runAll() {
         testExecutor.runTest(getCommand,
                 incrementAndGetCommand,
