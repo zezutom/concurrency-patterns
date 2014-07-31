@@ -1,10 +1,9 @@
 # Active Object
 
 The goal is to decouple method execution from its invocation. Why? Well, to either achieve
-a better throughput via asynchronous method invocation or work around system limitations or both:
+a better throughput via asynchronous method invocation or work around system limitations or both, examples:
 - booking system: instantaneous request confirmation vs time of when the order is actually processed
 - Android programming - UI changes: a background service sending a message to the UI thread via a message handler
-- etc.
 
 To avoid race conditions, incoming client requests are queued and handled by a scheduler.
 The scheduler picks a queued object and makes it run its logic. It is object's responsibility
