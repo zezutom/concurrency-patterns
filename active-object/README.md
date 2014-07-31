@@ -17,7 +17,13 @@ to know what to do when it gets invoked, hence the Active Object.
 - __Callback__: contains execution result (i.e. a promise or a future)
 
 ## Pros and Cons
-TODO
+On the bright side:
+- __Reduced code complexity__: Once pattern's mechanics are in place, the code can be treated as single-threaded.
+- __No need for additional synchronization__: Concurrent requests are serialized and handled by a single internal thread
+
+On the down side:
+- __Performance overhead__: Sophisticated scheduling, spinning and request handling can be expensive in terms of memory and can lead to non-trivial context switching.
+- __Programming overhead__: Active Object essentially requires you to create a small framework. It can definitely be kept self-contained enough, but it boils down to a simple the fact that you need to be aware of at least five specific components.
 
 ## Example
 source code directories:
@@ -107,7 +113,9 @@ the clients until the results become available. Still in the `ThreadSafeCounter.
 ## Resources
 - [Wikipedia](http://en.wikipedia.org/wiki/Active_object)
 - [Prefer Using Active Objects instead of Naked Threads](http://www.drdobbs.com/parallel/prefer-using-active-objects-instead-of-n/225700095)
+- [The Pragmatic Bookshelf: Java Active Objects](http://pragprog.com/magazines/2013-05/java-active-objects)
 - [Android Concurrency: The Active Object Pattern](http://www.dre.vanderbilt.edu/~schmidt/cs282/PDFs/6-Concurrency-and-Synchronization-part9.pdf)
+
 
 
 
