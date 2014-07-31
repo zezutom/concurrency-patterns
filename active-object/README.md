@@ -23,7 +23,7 @@ On the bright side:
 
 On the down side:
 - __Performance overhead__: Sophisticated scheduling, spinning and request handling can be expensive in terms of memory and can lead to non-trivial context switching.
-- __Programming overhead__: Active Object essentially requires you to create a small framework. It can definitely be kept self-contained enough, but it boils down to a simple the fact that you need to be aware of at least five specific components.
+- __Programming overhead__: Active Object essentially requires you to create a small framework. It can definitely be kept self-contained enough, but it boils down to a simple the fact that you need to be aware of at least six specific components.
 
 ## Example
 source code directories:
