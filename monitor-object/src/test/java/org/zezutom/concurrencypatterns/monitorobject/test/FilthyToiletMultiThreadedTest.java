@@ -30,6 +30,23 @@ public class FilthyToiletMultiThreadedTest {
 
     private static int toiletFloodedCount;
 
+    private enum Load {
+        MODERATE("a moderate"),
+        HEAVY("a heavy"),
+        EXTREME("an extreme");
+
+        private String value;
+
+        private Load(String value) {
+            this.value = value;
+        }
+
+        @Override
+        public String toString() {
+            return value;
+        }
+    }
+
     @BeforeClass
     public static void setUp() {
 
@@ -86,25 +103,28 @@ public class FilthyToiletMultiThreadedTest {
         toilet = new FilthyToilet();
     }
 
-    @Test(expected = AssertionError.class)
+    @Test
     public void testRegularTraffic() {
-        TestExecutor.get(10, 5).runTest(oneTimePatron);
-        assertIncidents();
+        runTest(Load.MODERATE, TestExecutor.get(10, 5), oneTimePatron);
     }
 
-    @Test(expected = AssertionError.class)
+    @Test
     public void testPeakHour() {
-        TestExecutor.get(10, 15).runTest(oneTimePatron, peacefulMind);
-        assertIncidents();
+        runTest(Load.HEAVY, TestExecutor.get(10, 15), frequentFlier, peacefulMind);
     }
 
-    @Test(expected = AssertionError.class)
+    @Test
     public void testBusyBeyondBelief() {
-        TestExecutor.get(10, 25).runTest(oneTimePatron, peacefulMind, frequentFlier);
-        assertIncidents();
+        runTest(Load.EXTREME, TestExecutor.get(20, 25), oneTimePatron, peacefulMind, frequentFlier);
     }
 
-    private void assertIncidents() {
-        assertTrue("The toilet was flooded " + toiletFloodedCount + " times!", toiletFloodedCount == 0);
+    private void runTest(Load load, TestExecutor executor, Runnable ... clients) {
+        executor.runTest(clients);
+        assertIncidents(load);
+    }
+
+    private void assertIncidents(Load load) {
+        System.out.println(String.format("The toilet was flooded %d times under %s load.", toiletFloodedCount, load));
+        assertTrue("The toilet was unexpectedly clean.", toiletFloodedCount > 0);
     }
 }

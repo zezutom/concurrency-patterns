@@ -1,8 +1,8 @@
 
 | Pattern | Main Features | Drawbacks |                  
 | ------- | ------------- | --------- |
-| [Active Object](./active-object) | no extra synchronization, as if single-threaded | performance / code overhead |
-| [Monitor Object](./monitor-object) | | |
+| [Active Object](./active-object) | execution in a dedicated thread, allows for complex scheduling, good separation of concerns | performance / code overhead |
+| [Monitor Object](./monitor-object) | cooperative execution scheduling, less of performance overhead | tight coupling, unsuitable for advanced scheduling |
 | Half-Sync / Half-Async | | |
 | Leader / Followers | | |
 | Thread-Specific Storage | | |
