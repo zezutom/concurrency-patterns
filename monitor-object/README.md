@@ -13,8 +13,8 @@ overhead either.
 ## Key Components
 
 - __Monitor Object__: exposes synchronized methods as the only means of client access
-_ __Synchronized Methods__: guarantee thread-safe access to the internal state
-_ __Monitor Lock__: used by the synchronized methods to serialize method invocation
+- __Synchronized Methods__: guarantee thread-safe access to the internal state
+- __Monitor Lock__: used by the synchronized methods to serialize method invocation
 - __Monitor Condition__: caters for cooperative execution scheduling
 
 ## Pros and Cons
