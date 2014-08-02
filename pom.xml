@@ -15,7 +15,7 @@
     <modules>
         <module>common</module>
         <module>active-object</module>
-        <module>monitor</module>
+        <module>monitor-object</module>
     </modules>
 
     <dependencies>

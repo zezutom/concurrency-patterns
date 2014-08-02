@@ -7,7 +7,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 /**
- * @author: Tomas Zezula
+ * @author Tomas Zezula
  * Date: 27/07/2014
  */
 public class TestExecutor {
@@ -22,10 +22,10 @@ public class TestExecutor {
 
     private int concurrentThreads;
 
-    // Ensures all threads are ready when starting a new test
+    // Ensures all threads are ready when starting a new org.zezutom.concurrencypatterns.monitorobject.test
     private CyclicBarrier startSync;
 
-    // Ensures all threads are done doing their job before a test is terminated
+    // Ensures all threads are done doing their job before a org.zezutom.concurrencypatterns.monitorobject.test is terminated
     private CountDownLatch stopSync;
 
     // A number of concurrent tests
@@ -60,7 +60,7 @@ public class TestExecutor {
             }
             else {
                 // Initialize the runners with the provided command and start them
-                initTestSync(DEFAULT_CONCURRENT_THREADS);
+                initTestSync(concurrentThreads);
                 for (int i = 0; i < runners.length; i++) {
                     runners[i] = new TestRunner(this, commands[0]);
                 }

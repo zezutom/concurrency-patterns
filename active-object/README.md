@@ -28,7 +28,7 @@ On the down side:
 ## Example
 source code directories:
 - `src/main/java/org/zezutom/concurrencypatterns/activeobject`
-- `src/test/java/org/zezutom/concurrencypatterns/activeobject/test`
+- `src/org.zezutom.concurrencypatterns.monitorobject.test/java/org/zezutom/concurrencypatterns/activeobject/org.zezutom.concurrencypatterns.monitorobject.test`
 
 A simple counter implementing a sub-set of the [AtomicLong](http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/atomic/AtomicLong.html).
 The counter keeps its internal state which is then a subject to race conditions:
@@ -42,12 +42,12 @@ The challenge is to ensure the counter consistently yields the correct results, 
 threads access and modify counter's intrinsic value.
 
 `ThreadUnsafeCounter.java` represents a naive implementation which fails to handle concurrent access.
-The failure is proved by a multi-threaded test `ThreadUnsafeCounterMultiThreadedTest.java`:
+The failure is proved by a multi-threaded org.zezutom.concurrencypatterns.monitorobject.test `ThreadUnsafeCounterMultiThreadedTest.java`:
 
 ```java
 public class ThreadUnsafeCounterMultiThreadedTest {
     ..
-    // Note that a test failure is expected
+    // Note that a org.zezutom.concurrencypatterns.monitorobject.test failure is expected
     @Test(expected = AssertionError.class)
     public void incrementAndGet() {
         testExecutor.runTest(incrementAndGetCommand);

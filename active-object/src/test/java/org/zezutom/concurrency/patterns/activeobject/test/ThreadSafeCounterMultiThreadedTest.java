@@ -27,7 +27,7 @@ public class ThreadSafeCounterMultiThreadedTest {
     private static Runnable decrementAndGetCommand;
     private static Runnable getAndDecrementCommand;
 
-    // Multi-threaded test executor
+    // Multi-threaded org.zezutom.concurrencypatterns.monitorobject.test executor
     private static TestExecutor testExecutor;
 
     // An instance of the tested class. Being 'volatile' indicates it's going to be used by multiple threads
@@ -41,7 +41,7 @@ public class ThreadSafeCounterMultiThreadedTest {
         // Instantiates the counter with the initial value
         counter = new ThreadSafeCounter(INITIAL_VALUE);
 
-        // Initializes multi-threaded test executor
+        // Initializes multi-threaded org.zezutom.concurrencypatterns.monitorobject.test executor
         testExecutor = TestExecutor.get();
 
         // Initializes individual commands
