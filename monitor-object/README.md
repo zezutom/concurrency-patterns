@@ -6,9 +6,7 @@ certain condition. However, there is no polling involved. Instead, the methods a
 That's a crucial difference in comparison to the [Active Object](../active-object).
 
 Monitor Object is similar to the [Active Object](../active-object) in a sense that it exposes a defined interface via object's synchronized methods.
-On the other hand, the methods execute in the client's thread as there is no notion of a centralized thread control.
-Since inefficient busy-waiting loops (polling) are replaced with method notification there is no significant performance
-overhead either.
+On the other hand, the methods execute in the client's thread as there is no notion of a centralized thread control. There is no significant performance overhead either, Since inefficient busy-waiting loops (polling) are replaced with notifications.
 
 ## Key Components
 
