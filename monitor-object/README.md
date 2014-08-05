@@ -96,9 +96,26 @@ public class CleanToilet implements Toilet {
    ..
 }
 ```
+The synchronization is ensured by using the lock along with the condition. The lock holds as long as the condition holds true:
 
-Synchronization details - TBC
+```java
+    public boolean enter() {
+        lock.lock();
+        try {
+            while (counter > 0) {   // wait while the toilet is being used
+                oneAtATimeCondition.awaitUninterruptibly();
+            }
 
+            if (++counter == 1) {
+                oneAtATimeCondition.signal();   // the toilet has been successfully acquired
+            }
+
+            return isOccupied();
+        } finally {
+            lock.unlock();
+        }
+    }
+```
 
 ## Resources
 - [Wikipedia](http://en.wikipedia.org/wiki/Monitor_(synchronization))
