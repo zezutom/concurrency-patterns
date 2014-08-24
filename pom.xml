@@ -16,6 +16,7 @@
         <module>common</module>
         <module>active-object</module>
         <module>monitor-object</module>
+        <module>half-sync-half-async</module>
     </modules>
 
     <dependencies>

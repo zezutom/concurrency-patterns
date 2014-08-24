@@ -22,10 +22,10 @@ public class TestExecutor {
 
     private int concurrentThreads;
 
-    // Ensures all threads are ready when starting a new org.zezutom.concurrencypatterns.monitorobject.test
+    // Ensures all threads are ready when starting a new test
     private CyclicBarrier startSync;
 
-    // Ensures all threads are done doing their job before a org.zezutom.concurrencypatterns.monitorobject.test is terminated
+    // Ensures all threads are done doing their job before a test is terminated
     private CountDownLatch stopSync;
 
     // A number of concurrent tests
@@ -38,6 +38,10 @@ public class TestExecutor {
 
     public static TestExecutor get() {
         return new TestExecutor(MAX_ITERATIONS, DEFAULT_CONCURRENT_THREADS);
+    }
+
+    public static TestExecutor getSingle() {
+        return get(1, 1);
     }
 
     public static TestExecutor get(int iterations, int concurrentThreads) {
