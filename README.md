@@ -3,7 +3,7 @@
 | ------- | ------------- | --------- |
 | [Active Object](./active-object) | execution in a dedicated thread, allows for complex scheduling, good separation of concerns | performance / code overhead |
 | [Monitor Object](./monitor-object) | cooperative execution scheduling, less of performance overhead | tight coupling, unsuitable for advanced scheduling |
-| Half-Sync / Half-Async | | |
+| [Half-Sync / Half-Async](./half-sync-half-async) | | |
 | Leader / Followers | | |
 | Thread-Specific Storage | | |
 
