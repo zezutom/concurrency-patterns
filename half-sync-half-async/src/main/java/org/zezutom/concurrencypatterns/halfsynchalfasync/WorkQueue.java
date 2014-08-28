@@ -9,7 +9,7 @@ import java.util.concurrent.*;
 public class WorkQueue {
 
     // Activation List: incoming requests (tasks) are put into a queue
-    private volatile BlockingQueue<Callable<Long>> taskQueue = new LinkedBlockingQueue<>();
+    private volatile BlockingQueue<Callable<Boolean>> taskQueue = new LinkedBlockingQueue<>();
 
     public WorkQueue(final MultiThreadedApp application) {
         new Thread(new Runnable() {
@@ -29,7 +29,7 @@ public class WorkQueue {
                         }
 
                         // at some point in the future the calculated value will be available
-                        Future<Long> future = executorService.submit(taskQueue.take());
+                        Future<Boolean> future = executorService.submit(taskQueue.take());
                         while (!future.isDone())
                             ;   // wait until the calculation is complete
 
@@ -48,15 +48,11 @@ public class WorkQueue {
 
     }
 
-    public void submit(final int n) {
-        submit(createTask(n));
+    public void submit(String imgPath, String outPath) {
+        submit(createTask(imgPath, outPath));
     }
 
-    public void submit(final int start, final int end) {
-        submit(createTask(start, end));
-    }
-
-    private void submit(Callable<Long> task) {
+    private void submit(Callable<Boolean> task) {
         try {
             taskQueue.put(task);
         } catch (InterruptedException e) {
@@ -64,20 +60,11 @@ public class WorkQueue {
         }
     }
 
-    private Callable<Long> createTask(final int n) {
-        return new Callable<Long>() {
+    private Callable<Boolean> createTask(final String imgPath, final String outPath) {
+        return new Callable<Boolean>() {
             @Override
-            public Long call() throws Exception {
-                return new FactorialTask(n).execute();
-            }
-        };
-    }
-
-    private Callable<Long> createTask(final int start, final int end) {
-        return new Callable<Long>() {
-            @Override
-            public Long call() throws Exception {
-                return new FactorialTask(start, end).execute();
+            public Boolean call() throws Exception {
+                return new AsciiArt().convertToAscii(imgPath, outPath);
             }
         };
     }

@@ -1,10 +1,17 @@
 package org.zezutom.concurrencypatterns.halfsynchalfasync.test;
 
+import org.apache.commons.io.FileUtils;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.zezutom.concurrencypatterns.halfsynchalfasync.SingleThreadedApp;
+import org.zezutom.concurrencypatterns.test.util.DataUtil;
 
-import static org.zezutom.concurrencypatterns.halfsynchalfasync.test.FactorialConstants.*;
+import java.io.File;
+import java.io.IOException;
+
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * @author: Tomas Zezula
@@ -12,14 +19,24 @@ import static org.junit.Assert.assertEquals;
  */
 public class SingleThreadedAppTest {
 
-    private SingleThreadedApp singleThreadedApp = new SingleThreadedApp();
+    public static final String IMAGE = "audrey_hepburn.jpeg";
+
+    public static final String OUT_TEST = "audrey-test.txt";
+
+    public static final String OUT_ORIGINAL = "audrey.txt";
+
+    private SingleThreadedApp app = new SingleThreadedApp();
+
+    @After
+    public void cleanUp() {
+        final File asciiFile = DataUtil.getFile(OUT_TEST);
+        if (asciiFile.exists()) asciiFile.delete();
+    }
 
     @Test
-    public void calculationMustBeCorrect() {
-        assertEquals(FACTORIAL_1, singleThreadedApp.factorial(0));
-        assertEquals(FACTORIAL_1, singleThreadedApp.factorial(1));
-        assertEquals(FACTORIAL_5, singleThreadedApp.factorial(5));
-        assertEquals(FACTORIAL_11, singleThreadedApp.factorial(11));
+    public void asciiArtRocks() throws IOException {
+        assertTrue(app.convertToAscii(IMAGE, OUT_TEST));
+        assertTrue(FileUtils.contentEquals(DataUtil.getFile(OUT_ORIGINAL), DataUtil.getFile(OUT_TEST)));
     }
 
 }

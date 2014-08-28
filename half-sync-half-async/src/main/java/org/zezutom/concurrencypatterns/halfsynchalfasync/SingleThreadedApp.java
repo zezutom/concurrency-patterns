@@ -8,12 +8,12 @@ package org.zezutom.concurrencypatterns.halfsynchalfasync;
  */
 public class SingleThreadedApp {
 
-    public long factorial(int n) {
-        return new FactorialTask(n).execute();
+    public boolean convertToAscii(String imgPath, String outPath) {
+        return new AsciiArt().convertToAscii(imgPath, outPath);
     }
 
     public static void main(String[] args) {
-        long factorial = new SingleThreadedApp().factorial(11);
-        System.out.println("RESULT: " + factorial);
+        boolean result = new SingleThreadedApp().convertToAscii("audrey_hepburn01.jpeg", "audrey.txt");
+        System.out.println("RESULT: " + result);
     }
 }

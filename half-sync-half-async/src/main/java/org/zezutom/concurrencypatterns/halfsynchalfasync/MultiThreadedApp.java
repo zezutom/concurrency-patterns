@@ -9,7 +9,7 @@ package org.zezutom.concurrencypatterns.halfsynchalfasync;
  */
 public class MultiThreadedApp {
 
-    private long result = 1;
+    private boolean result = false;
 
     private WorkQueue queue;
 
@@ -20,29 +20,18 @@ public class MultiThreadedApp {
         this.subscriber = subscriber;
     }
 
-    public void factorial(final int n) {
+    public void convertToAscii(final String imgPath, final String outPath) {
         Runnable submission = new Runnable() {
             @Override
             public void run() {
-                final int processors = Runtime.getRuntime().availableProcessors();
-                if (n < processors * 2) {
-                    queue.submit(n);
-                } else {
-                    int batchSize = (n + processors - 1) / processors;
-
-                    for (int i = 1; i <= n; i+= batchSize) {
-                        final int start = i;
-                        final int end = Math.min(n + 1, i + batchSize);
-                        queue.submit(start, end);
-                    }
-                }
+                queue.submit(imgPath, outPath);
             }
         };
         new Thread(submission).start();
     }
 
-    public void onResult(long result) {
-        this.result *= result;
+    public void onResult(boolean result) {
+        this.result = result;
     }
 
     public void onDone() {

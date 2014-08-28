@@ -2,7 +2,6 @@ package org.zezutom.concurrencypatterns.halfsynchalfasync.test;
 
 import org.zezutom.concurrencypatterns.halfsynchalfasync.MultiThreadedApp;
 import org.zezutom.concurrencypatterns.halfsynchalfasync.ResultSubscriber;
-import org.zezutom.concurrencypatterns.test.util.StopWatch;
 
 /**
  * @author: Tomas Zezula
@@ -10,30 +9,32 @@ import org.zezutom.concurrencypatterns.test.util.StopWatch;
  */
 public class MultiThreadedAppSubscriber implements Runnable, ResultSubscriber {
 
-    private int n;
-
-    private long result;
-
-    private StopWatch stopWatch;
+    private boolean result;
 
     private MultiThreadedApp app;
 
-    public MultiThreadedAppSubscriber(int n) {
-        this.n = n;
-        stopWatch = new StopWatch();
+    private long callTime;
+
+    private long responseTime;
+
+    private String imgPath, outPath;
+
+    public MultiThreadedAppSubscriber(String imgPath, String outPath) {
+        this.imgPath = imgPath;
+        this.outPath = outPath;
         app = new MultiThreadedApp(this);
     }
 
     @Override
-    public void onResult(long result) {
-        stopWatch.stop();
+    public void onResult(boolean result) {
+        responseTime = System.currentTimeMillis();
         this.result = result;
     }
 
     @Override
     public void run() {
-        stopWatch.start();
-        app.factorial(n);
+        app.convertToAscii(imgPath, outPath);
+        callTime = System.currentTimeMillis();
         try {
             Thread.sleep(1000L);
         } catch (InterruptedException e) {
@@ -41,11 +42,11 @@ public class MultiThreadedAppSubscriber implements Runnable, ResultSubscriber {
         }
     }
 
-    public long getResult() {
+    public boolean getResult() {
         return result;
     }
 
-    public long elapsedTime() {
-        return stopWatch.elapsedTime();
+    public boolean isAsynchronous() {
+        return callTime <= responseTime;
     }
 }

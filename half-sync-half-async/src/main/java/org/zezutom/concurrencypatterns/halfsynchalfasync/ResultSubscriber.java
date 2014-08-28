@@ -6,5 +6,5 @@ package org.zezutom.concurrencypatterns.halfsynchalfasync;
  */
 public interface ResultSubscriber {
 
-    void onResult(long result);
+    void onResult(boolean result);
 }
