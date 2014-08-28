@@ -3,6 +3,8 @@ package org.zezutom.concurrencypatterns.halfsynchalfasync;
 import java.util.concurrent.*;
 
 /**
+ * Queues incoming requests and notifies the dispatcher when the response is ready.
+ *
  * @author: Tomas Zezula
  * Date: 24/08/2014
  */
@@ -11,7 +13,7 @@ public class WorkQueue {
     // Activation List: incoming requests (tasks) are put into a queue
     private volatile BlockingQueue<Callable<Boolean>> taskQueue = new LinkedBlockingQueue<>();
 
-    public WorkQueue(final MultiThreadedApp application) {
+    public WorkQueue(final NonBlockingDispatcher dispatcher) {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -23,10 +25,7 @@ public class WorkQueue {
 
                 try {
                     while (true) {
-                        if (taskQueue.isEmpty()) {
-                            application.onDone();
-                            break;
-                        }
+                        if (taskQueue.isEmpty()) break;
 
                         // at some point in the future the calculated value will be available
                         Future<Boolean> future = executorService.submit(taskQueue.take());
@@ -34,7 +33,7 @@ public class WorkQueue {
                             ;   // wait until the calculation is complete
 
                         // publish the result
-                        application.onResult(future.get());
+                        dispatcher.onResult(future.get());
 
                     }
                 } catch (InterruptedException | ExecutionException e) {
@@ -64,7 +63,7 @@ public class WorkQueue {
         return new Callable<Boolean>() {
             @Override
             public Boolean call() throws Exception {
-                return new AsciiArt().convertToAscii(imgPath, outPath);
+                return new AsciiArtGenerator().convertToAscii(imgPath, outPath);
             }
         };
     }

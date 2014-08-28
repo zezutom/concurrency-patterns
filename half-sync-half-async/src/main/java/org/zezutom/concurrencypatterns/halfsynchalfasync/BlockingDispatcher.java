@@ -6,14 +6,14 @@ package org.zezutom.concurrencypatterns.halfsynchalfasync;
  * @author: Tomas Zezula
  * Date: 24/08/2014
  */
-public class SingleThreadedApp {
+public class BlockingDispatcher {
 
     public boolean convertToAscii(String imgPath, String outPath) {
-        return new AsciiArt().convertToAscii(imgPath, outPath);
+        return new AsciiArtGenerator().convertToAscii(imgPath, outPath);
     }
 
     public static void main(String[] args) {
-        boolean result = new SingleThreadedApp().convertToAscii("audrey_hepburn01.jpeg", "audrey.txt");
+        boolean result = new BlockingDispatcher().convertToAscii("audrey_hepburn01.jpeg", "audrey.txt");
         System.out.println("RESULT: " + result);
     }
 }

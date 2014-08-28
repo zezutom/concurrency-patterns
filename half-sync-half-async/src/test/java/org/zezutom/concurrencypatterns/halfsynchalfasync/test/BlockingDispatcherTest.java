@@ -4,18 +4,21 @@ import org.apache.commons.io.FileUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.zezutom.concurrencypatterns.halfsynchalfasync.BlockingDispatcher;
+import org.zezutom.concurrencypatterns.halfsynchalfasync.BlockingDispatcher;
 import org.zezutom.concurrencypatterns.test.util.DataUtil;
-import org.zezutom.concurrencypatterns.test.util.TestExecutor;
 
 import java.io.File;
 import java.io.IOException;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+
 /**
  * @author: Tomas Zezula
  * Date: 24/08/2014
  */
-public class MultiThreadedAppTest {
+public class BlockingDispatcherTest {
 
     public static final String IMAGE = "audrey_hepburn.jpeg";
 
@@ -23,12 +26,7 @@ public class MultiThreadedAppTest {
 
     public static final String OUT_ORIGINAL = "audrey.txt";
 
-    private MultiThreadedAppSubscriber subscriber;
-
-    @Before
-    public void init() {
-        subscriber = new MultiThreadedAppSubscriber(IMAGE, OUT_TEST);
-    }
+    private BlockingDispatcher app = new BlockingDispatcher();
 
     @After
     public void cleanUp() {
@@ -37,10 +35,9 @@ public class MultiThreadedAppTest {
     }
 
     @Test
-    public void asyncAsciiArtRocks() throws IOException {
-        TestExecutor.getSingle().runTest(subscriber);
-        assertTrue(subscriber.getResult());
+    public void asciiArtRocks() throws IOException {
+        assertTrue(app.convertToAscii(IMAGE, OUT_TEST));
         assertTrue(FileUtils.contentEquals(DataUtil.getFile(OUT_ORIGINAL), DataUtil.getFile(OUT_TEST)));
-        assertTrue(subscriber.isAsynchronous());
     }
+
 }

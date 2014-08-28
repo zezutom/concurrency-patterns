@@ -31,7 +31,7 @@ watching that monitor would be kept waiting.
 ## Example
 source code directories:
 - `src/main/java/org/zezutom/concurrencypatterns/monitorobject`
-- `src/main/java/org/zezutom/concurrencypatterns/monitorobject.test`
+- `src/main/java/org/zezutom/concurrencypatterns/monitorobject/test`
 
 Inspired by a blog post [Java Monitor Pattern](http://www.e-zest.net/blog/java-monitor-pattern)
 I came up with a hypothetical usage of a public toilet. Not only does it reminiscence of what makes

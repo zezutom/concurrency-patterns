@@ -7,7 +7,7 @@ package org.zezutom.concurrencypatterns.halfsynchalfasync;
  * @author: Tomas Zezula
  * Date: 24/08/2014
  */
-public class MultiThreadedApp {
+public class NonBlockingDispatcher {
 
     private boolean result = false;
 
@@ -15,12 +15,18 @@ public class MultiThreadedApp {
 
     private ResultSubscriber subscriber;
 
-    public MultiThreadedApp(ResultSubscriber subscriber) {
+    public NonBlockingDispatcher(ResultSubscriber subscriber) {
         queue = new WorkQueue(this);
         this.subscriber = subscriber;
     }
 
-    public void convertToAscii(final String imgPath, final String outPath) {
+    /**
+     * Sends a request to the queue and returns instantly.
+     *
+     * @param imgPath   Image path for the ASCII generator
+     * @param outPath   Output path for the ASCII generator
+     */
+    public void dispatch(final String imgPath, final String outPath) {
         Runnable submission = new Runnable() {
             @Override
             public void run() {
@@ -30,14 +36,14 @@ public class MultiThreadedApp {
         new Thread(submission).start();
     }
 
+    /**
+     * Captures processing result and notifies the subscribed client
+     *
+     * @param result true, if success, false otherwise
+     */
     public void onResult(boolean result) {
-        this.result = result;
-    }
-
-    public void onDone() {
         if (subscriber != null) {
             subscriber.onResult(result);
         }
     }
-
 }

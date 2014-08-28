@@ -15,7 +15,7 @@ import java.net.URISyntaxException;
  * @author: Tomas Zezula
  * Date: 27/08/2014
  */
-public class AsciiArt {
+public class AsciiArtGenerator {
 
     public static final double RED = 0.30;
 
@@ -35,6 +35,13 @@ public class AsciiArt {
 
     private char[] chars = new char[] {' ', '.', '*', '+', '^', '&', '8', '#', '@'};
 
+    /**
+     * Converts an image to its ASCII representation.
+     *
+     * @param imgPath   path to the image, relative to /src/main/resources
+     * @param outPath   path to the resulting text file, relative to ./data
+     * @return true, if the conversion succeeds, false otherwise
+     */
     public boolean convertToAscii(String imgPath, String outPath) {
         try {
             printWriter = new PrintWriter(fileWriter = new FileWriter(getDataDir(outPath)));
@@ -102,7 +109,7 @@ public class AsciiArt {
     }
 
     public static void main(String[] args) {
-        AsciiArt art = new AsciiArt();
+        AsciiArtGenerator art = new AsciiArtGenerator();
         art.convertToAscii("audrey_hepburn01.jpeg", "audrey.txt");
     }
 

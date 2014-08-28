@@ -1,17 +1,17 @@
 package org.zezutom.concurrencypatterns.halfsynchalfasync.test;
 
-import org.zezutom.concurrencypatterns.halfsynchalfasync.MultiThreadedApp;
+import org.zezutom.concurrencypatterns.halfsynchalfasync.NonBlockingDispatcher;
 import org.zezutom.concurrencypatterns.halfsynchalfasync.ResultSubscriber;
 
 /**
  * @author: Tomas Zezula
  * Date: 24/08/2014
  */
-public class MultiThreadedAppSubscriber implements Runnable, ResultSubscriber {
+public class AsyncResultSubscriber implements Runnable, ResultSubscriber {
 
     private boolean result;
 
-    private MultiThreadedApp app;
+    private NonBlockingDispatcher app;
 
     private long callTime;
 
@@ -19,10 +19,10 @@ public class MultiThreadedAppSubscriber implements Runnable, ResultSubscriber {
 
     private String imgPath, outPath;
 
-    public MultiThreadedAppSubscriber(String imgPath, String outPath) {
+    public AsyncResultSubscriber(String imgPath, String outPath) {
         this.imgPath = imgPath;
         this.outPath = outPath;
-        app = new MultiThreadedApp(this);
+        app = new NonBlockingDispatcher(this);
     }
 
     @Override
@@ -33,7 +33,7 @@ public class MultiThreadedAppSubscriber implements Runnable, ResultSubscriber {
 
     @Override
     public void run() {
-        app.convertToAscii(imgPath, outPath);
+        app.dispatch(imgPath, outPath);
         callTime = System.currentTimeMillis();
         try {
             Thread.sleep(1000L);
