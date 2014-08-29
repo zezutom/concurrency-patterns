@@ -71,7 +71,7 @@ public class AsciiArtGenerator {
     }
 
     private String getDataDir(String filename) {
-        return System.getProperty("user.dir") + "/data/" + filename;
+        return System.getProperty("user.dir") + "/half-sync-half-async/data/" + filename;
     }
 
     private File getResource(String filename) throws URISyntaxException {
@@ -110,7 +110,7 @@ public class AsciiArtGenerator {
 
     public static void main(String[] args) {
         AsciiArtGenerator art = new AsciiArtGenerator();
-        art.convertToAscii("audrey_hepburn01.jpeg", "audrey.txt");
+        art.convertToAscii("audrey_hepburn.jpg", "audrey.txt");
     }
 
 }
