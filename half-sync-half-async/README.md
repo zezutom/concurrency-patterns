@@ -110,6 +110,7 @@ is best viewed using a minimal font-size.
 - [Half-Sync/Half-Async (opens as PDF)](http://www.cs.wustl.edu/~schmidt/PDF/PLoP-95.pdf)
 - [Coursera video lecture: Half-Sync/Half-Async](https://class.coursera.org/posa-002/lecture/211)
 - [Android - AsyncTask](http://developer.android.com/reference/android/os/AsyncTask.html)
+- [ASCII Art Generator](https://evilzone.org/java/(java-code)image-to-ascii-art-generator/)
 - [Portrait of Audrey Hepburn](http://www.topbesthdpicture.com/wp-content/uploads/2014/05/1152630696_1024x768_audrey-hepburn-230x130.jpg)
 
 
