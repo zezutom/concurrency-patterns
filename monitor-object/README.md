@@ -88,7 +88,7 @@ public class CleanToilet implements Toilet {
     // Monitor Condition - the toilet can only be used by a single person at a time
     private Condition oneAtATimeCondition;
 
-    // The guarded object's state - the 'volatile' flag is crucial for the signaling to work
+    // The guarded object's state - the 'volatile' flag is crucial for the signalling to work
     private volatile int counter;
 
     // all of the public methods are synchronized
