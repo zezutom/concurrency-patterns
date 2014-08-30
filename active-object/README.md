@@ -71,7 +71,7 @@ public class ThreadSafeCounter implements Counter {
     // Callback: provides access to the calculated results (incrementAndGet, etc.)
     private BlockingQueue<Long> resultQueue = new LinkedBlockingQueue<>();
 
-    // Scheduler: a dedicated thread created and started when the counter gets instantiated
+    // Scheduler: a dedicated thread created and started when the counter is instantiated
     public ThreadSafeCounter(long value) {
         ..
         new Thread(new Runnable() {
@@ -91,7 +91,7 @@ public class ThreadSafeCounter implements Counter {
 }
 ```
 
-The implementation offloads the actual task scheduling to the [Executor](TODO: link to java.concurrency.Executor) framework.
+The implementation offloads the actual task scheduling to the [Executor](http://docs.oracle.com/javase/tutorial/essential/concurrency/exinter.html) framework.
 The execution results are handled asynchronously via futures. For simplicity, I chose to block
 the clients until the results become available. Still in the `ThreadSafeCounter.java`:
 
