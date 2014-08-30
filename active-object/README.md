@@ -33,7 +33,7 @@ source code directories:
 A simple counter implementing a sub-set of the [AtomicLong](http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/atomic/AtomicLong.html).
 The counter keeps its internal state which is then a subject to race conditions:
 ```java
-public class ThreadSafeCounter {
+public class ThreadSafeCounter implements Counter {
     private long value;
     ..
 }
