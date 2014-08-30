@@ -95,7 +95,7 @@ public class CleanToilet implements Toilet {
    ..
 }
 ```
-The synchronization is ensured by using the lock along with the condition. The lock holds as long as the condition holds true:
+The synchronization is ensured by using a lock along with a condition. The lock holds as long as the condition holds true:
 
 ```java
     public boolean enter() {
