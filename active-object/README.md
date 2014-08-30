@@ -42,12 +42,12 @@ The challenge is to ensure the counter consistently yields the correct results, 
 threads access and modify counter's intrinsic value.
 
 `ThreadUnsafeCounter.java` represents a naive implementation which fails to handle concurrent access.
-The failure is proved by a multi-threaded org.zezutom.concurrencypatterns.monitorobject.test `ThreadUnsafeCounterMultiThreadedTest.java`:
+The failure is proved by a multi-threaded test `ThreadUnsafeCounterMultiThreadedTest.java`:
 
 ```java
 public class ThreadUnsafeCounterMultiThreadedTest {
     ..
-    // Note that a org.zezutom.concurrencypatterns.monitorobject.test failure is expected
+    // Note that a test failure is expected
     @Test(expected = AssertionError.class)
     public void incrementAndGet() {
         testExecutor.runTest(incrementAndGetCommand);
