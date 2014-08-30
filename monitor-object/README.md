@@ -54,8 +54,7 @@ Now, the challenge is to ensure, under any circumstances, that the toilet only b
 Should that condition fail, the toilet becomes flooded:
 
 ```java
-public class ToiletFloodedException extends RuntimeException {
-}
+public class ToiletFloodedException extends RuntimeException {}
 ```
 
 An obviously ignorant implementation of the Toilet interface ..:
