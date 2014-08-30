@@ -60,7 +60,7 @@ public class ThreadUnsafeCounterMultiThreadedTest {
 `ThreadSafeCounter.java` handles concurrency by using the Active Object design pattern:
 
 ```java
-public class ThreadSafeCounter {
+public class ThreadSafeCounter implements Counter {
 
     // The internal state, subject to race conditions.
     private long value;
