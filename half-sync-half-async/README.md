@@ -106,8 +106,8 @@ The app pays tribute to a great actress of the last century. The resulting file 
 is best viewed using a minimal font-size.
 
 ## Resources
-- [The Half-Sync/Half-Async Pattern (opens as PDF)](http://www.dre.vanderbilt.edu/~schmidt/cs282/PDFs/6-Concurrency-and-Synchronization-part10.pdf)
-- [Half-Sync/Half-Async (opens as PDF)](http://www.cs.wustl.edu/~schmidt/PDF/PLoP-95.pdf)
+- [The Half-Sync/Half-Async Pattern](http://www.dre.vanderbilt.edu/~schmidt/cs282/PDFs/6-Concurrency-and-Synchronization-part10.pdf)
+- [Half-Sync/Half-Async](http://www.cs.wustl.edu/~schmidt/PDF/PLoP-95.pdf)
 - [Coursera video lecture: Half-Sync/Half-Async](https://class.coursera.org/posa-002/lecture/211)
 - [Android - AsyncTask](http://developer.android.com/reference/android/os/AsyncTask.html)
 - [ASCII Art Generator](https://evilzone.org/java/(java-code)image-to-ascii-art-generator/)
