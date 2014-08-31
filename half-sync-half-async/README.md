@@ -36,7 +36,7 @@ source code directories:
 - `src/main/java/org/zezutom/concurrencypatterns/halfsynchalfasync`
 - `src/main/java/org/zezutom/concurrencypatterns/halfsynchalfasync/test`
 
-An ASCII Art generator (credit goes to [Evilzone](https://evilzone.org/java/(java-code)image-to-ascii-art-generator).
+An ASCII Art generator (credit goes to [Evilzone](https://evilzone.org/java/(java-code)image-to-ascii-art-generator))
 is not only pleasant to work with, but it is also a suitable candidate for a long-running task. I saw it as a perfect
 fit for the pattern.
 
